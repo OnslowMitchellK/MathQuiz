@@ -18,6 +18,16 @@ NUMBER_MIN = 1
 OPERATOR_MAX = 2
 OPERATOR_MIN = 0
 
+print("""\033\n[1mWelcome to the Math Quiz\033[0m
+---------------------------------------------------------------------------
+Rules:
+You will gain a point after each correct answer.
+You will lose 5 points after each incorrect answer.
+You will be offered a random bonus after every 5 correct answers.
+You will be asked if you would like to continue after every 10 questions.
+\033\n[1mNOTE: You cannot drop below 0 points\033[0m
+---------------------------------------------------------------------------""")
+
 
 def generate_numbers():
     """
@@ -46,7 +56,7 @@ def list_clear():
 def resume():
     while True:
         try:
-            resume = input("Would you still like to " +
+            resume = input("\nWould you still like to " +
                            "continue? (Y/N) ").lower().strip()
             if resume in YES:
                 break
@@ -55,7 +65,21 @@ def resume():
                 print("\nThank you for using this math quiz")
                 sys.exit()
         except Exception:
-            print("wd")
+            print("Invalid input")
+
+
+def bonus():
+    print("\033[1mYou have won a random bonus\033[0m\n")
+    while True:
+        try:
+            bonus_confirm = input("Would you like to " +
+                                  "redeem it (Y/N)? ").strip().lower()
+            if bonus_confirm in YES:
+                print("TEMP TESTING TEXT FOR YES")
+            elif bonus_confirm in NO:
+                break
+        except Exception:
+            print("Invalid input\n")
 
 
 def math_equation():
@@ -63,6 +87,7 @@ def math_equation():
     Activates other functions to generate a math equation.
     """
     counter = 1
+    points = 0
     while True:
         try:
             generate_numbers()
@@ -79,17 +104,23 @@ def math_equation():
                                    f"{numbers_list[2]} = "))
             if user_input == answer:
 
-                print("CORRECT!!! YOU HAVE GAINED 1 POINT\n")
+                print("CORRECT!!! You have gained 1 point\n")
+                points += 1
                 list_clear()
             else:
-                print("WRONG!!! MINUS 5 POINTS!!! YOU NOW HAVE [] POINTS!!!\n")
+                if points != 0:
+                    points -= 5
+                print("Wrong!!! minus 5 points!!! " +
+                      f"you now have {points} points!!!")
+                print(f"The correct answer was \033[1m{answer}\033\n[0m")
                 list_clear()
+            if points % 5 == 0 and points != 0:
+                bonus()
             if counter % 10 == 0:
                 resume()
             counter += 1
         except Exception:
             print("Please enter a valid input\n")
-            counter -= 1
 
 
 math_equation()
