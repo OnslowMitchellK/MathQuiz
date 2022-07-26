@@ -2,21 +2,28 @@
 # Math Quiz
 # 7/6/2022
 # Mitchell Kan
-# This programme is a math quiz game where the user gets asked a math question
-# and the user has to guess right or they lose points. There is also random
+# This program is a math quiz game where the user gets asked a math question
+# and the user has to guess right or they lose points. There are also random
 # bonus multipliers to help the user reach 100 points faster in order to win.
 
+import random
 from random import randint
 
 numbers_list = []
 operators_list = []
 operators = ['+', '-', '*']
+BONUSES = {'Double or Nothing': 'Double your points or lose them all!',
+           'Double Points Multiplier': 'Double points for 3 questions!',
+           'Triple Points Multiplier': 'Triple points for 3 questions!',
+           'Sudden Death': 'Get the next question correct or else it ends!',
+           'Instant +5 Points': 'Instantly obtain 5 points!'}
 NO = ["no", "n"]
 YES = ["yes", "y"]
 NUMBER_MAX = 99
 NUMBER_MIN = 1
 OPERATOR_MAX = 2
 OPERATOR_MIN = 0
+
 
 print("""\033\n[1mWelcome to the Math Quiz\033[0m
 ---------------------------------------------------------------------------
@@ -49,11 +56,17 @@ def generate_operators():
 
 
 def list_clear():
+    """
+    Clears the list for numbers and operators.
+    """
     numbers_list.clear()
     operators_list.clear()
 
 
 def resume():
+    """
+    Asks the user if they would like to continue playing or quit
+    """
     while True:
         try:
             resume = input("\nWould you still like to " +
@@ -69,13 +82,25 @@ def resume():
 
 
 def bonus():
-    print("\033[1mYou have won a random bonus\033[0m\n")
+    """
+    Asks user if they would like a bonus, if no, they will continue
+    the quiz with no bonus, if yes, randomly choose a bonus and apply
+    to user.
+    """
+    print("\033[1mYou have won a random bonus\033[0m")
+    print("(Some of these can cause you to lose and there is no return)\n")
     while True:
         try:
             bonus_confirm = input("Would you like to " +
                                   "redeem it (Y/N)? ").strip().lower()
             if bonus_confirm in YES:
-                print("TEMP TESTING TEXT FOR YES")
+                # https://stackoverflow.com/questions/4859292/how-to-get-a-random-value-from-dictionary
+                rand_bonus, description = random.choice(list(BONUSES.items()))
+                print(rand_bonus)
+                print(description)
+                print("\nCongratulations, you have "
+                      f"won the following bonus: {rand_bonus}")
+                print(description)
             elif bonus_confirm in NO:
                 break
         except Exception:
@@ -110,6 +135,8 @@ def math_equation():
             else:
                 if points != 0:
                     points -= 5
+                if points < 0:
+                    points = 0
                 print("Wrong!!! minus 5 points!!! " +
                       f"you now have {points} points!!!")
                 print(f"The correct answer was \033[1m{answer}\033\n[0m")
