@@ -344,14 +344,12 @@ def math_equation():
         try:
             if points >= 100:
                 gigachad()
-            print(f"aaaaaaaaaaaaaaaaaa {points}")
             list_clear()
             generate_numbers()
             generate_operators()
             answer = int(eval(numbers_list[0] + operators[operators_list[0]] +
                               numbers_list[1] + operators[operators_list[1]] +
                               numbers_list[2]))
-            answer = 1
             # https://stackoverflow.com/questions/8924173/how-do-i-print-bold-text-in-python
             print(f'\033\n[1m  Question {counter}  \033[0m')
             user_input = int(input(f"{numbers_list[0]} " +
