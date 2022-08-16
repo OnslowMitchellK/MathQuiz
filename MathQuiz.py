@@ -34,8 +34,9 @@ print("""\033\n[1mWelcome to the Super Hard Math Quiz\033[0m
 Info:
 You will gain a point after each correct answer.
 You will lose 5 points after each incorrect answer.
-You will be offered a random bonus after every 5 correct answers.
+You will be offered a random bonus after every 5 correct answer.
 You will be asked if you would like to continue after every 10 questions.
+You will win once you reach 100 points and get an aesthetic prize.
 \033\n[1mNOTE: You cannot drop below 0 points\033[0m
 ---------------------------------------------------------------------------""")
 
@@ -71,6 +72,7 @@ def resume():
     """
     Asks the user if they would like to continue playing or quit
     """
+    global points
     while True:
         try:
             resume = input("\nWould you still like to " +
@@ -79,10 +81,11 @@ def resume():
             if resume in YES:
                 break
             elif resume in NO:
-                print("\nThank you for playing this math quiz")
+                print(f"\nYou ended on {points} points")
+                print("Thank you for playing this math quiz")
                 sys.exit()
         except Exception:
-            print("Invalid input")
+            print("\nInvalid input")
 
 
 def bonus():
@@ -92,11 +95,11 @@ def bonus():
     to user.
     """
     print("\033[1mYou have won a random bonus!\033[0m")
-    print("(Some of these can cause you to lose and there is no return)\n")
+    print("(Some of these can cause you to lose and there is no return)")
     global points
     while True:
         try:
-            bonus_confirm = input("Would you like to " +
+            bonus_confirm = input("\nWould you like to " +
                                   "redeem it (Y/N)? ").strip().lower()
             if bonus_confirm in YES:
                 # https://stackoverflow.com/questions/4859292/how-to-get-a-random-value-from-dictionary
@@ -104,12 +107,12 @@ def bonus():
                 print("\nCongratulations, you have "
                       f"won the following bonus: {rand_bonus}")
                 print(f"{description}\n")
-                time.sleep(5)
+                time.sleep(3)
                 break
             elif bonus_confirm in NO:
                 break
         except Exception:
-            print("Invalid input\n")
+            print("\nInvalid input\n")
     if rand_bonus == list(BONUSES.keys())[0]:
         DON()
     elif rand_bonus == list(BONUSES.keys())[1]:
@@ -149,7 +152,7 @@ def DON():
                 print("\nWhat unfortunate news, you are now on 0 points")
                 break
         except Exception:
-            print("Please enter valid interger\n")
+            print("\nPlease enter valid interger\n")
 
 
 def DPM():
@@ -198,7 +201,7 @@ def DPM():
             counter += 1
             multiplier -= 1
         except Exception:
-            print("Please enter valid interger\n")
+            print("\nPlease enter valid interger\n")
     print("Your bonus has run out")
 
 
@@ -249,8 +252,8 @@ def TPM():
             counter += 1
             multiplier -= 1
         except Exception:
-            print("Please enter valid interger\n")
-    print("Your bonus has run out")
+            print("\nPlease enter valid interger\n")
+    print("Your bonus has run out\n")
 
 
 def SD():
@@ -275,7 +278,7 @@ def SD():
                 time.sleep(5)
                 sys.exit()
         except Exception:
-            print("Please enter valid interger\n")
+            print("\nPlease enter valid interger\n")
 
 
 def gigachad():
@@ -344,14 +347,12 @@ def math_equation():
         try:
             if points >= 100:
                 gigachad()
-            print(f"aaaaaaaaaaaaaaaaaa {points}")
             list_clear()
             generate_numbers()
             generate_operators()
             answer = int(eval(numbers_list[0] + operators[operators_list[0]] +
                               numbers_list[1] + operators[operators_list[1]] +
                               numbers_list[2]))
-            answer = 1
             # https://stackoverflow.com/questions/8924173/how-do-i-print-bold-text-in-python
             print(f'\033\n[1m  Question {counter}  \033[0m')
             user_input = int(input(f"{numbers_list[0]} " +
@@ -381,7 +382,7 @@ def math_equation():
                 print(f"You now have {points} points, that means...")
                 bonus()
         except Exception:
-            print("Please enter valid interger")
+            print("\nPlease enter valid interger\n")
 
 
 math_equation()
